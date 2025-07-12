@@ -1,12 +1,12 @@
 // src/app/components/picoplaca-form/picoplaca-form.component.ts
-import { Component }            from '@angular/core';
-import { CommonModule }         from '@angular/common';
-import { FormsModule, NgForm }  from '@angular/forms';
-import { HttpClientModule }     from '@angular/common/http';
-import { MatFormFieldModule }   from '@angular/material/form-field';
-import { MatInputModule }       from '@angular/material/input';
-import { MatButtonModule }      from '@angular/material/button';
-import { PicoplacaService }     from '../../services/picoplaca.service';
+import { Component }           from '@angular/core';
+import { CommonModule }        from '@angular/common';
+import { FormsModule, NgForm } from '@angular/forms';
+import { HttpClientModule }    from '@angular/common/http';
+import { MatFormFieldModule }  from '@angular/material/form-field';
+import { MatInputModule }      from '@angular/material/input';
+import { MatButtonModule }     from '@angular/material/button';
+import { PicoplacaService }    from '../../services/picoplaca.service';
 
 @Component({
   standalone: true,
@@ -25,24 +25,20 @@ import { PicoplacaService }     from '../../services/picoplaca.service';
 })
 export class PicoplacaFormComponent {
   placa     = '';
-  fecha     = this.today();
-  hora      = this.now();
+  fecha    !: string;
+  hora     !: string;
   resultado: boolean | null = null;
   cargando  = false;
   errorMsg  = '';
 
-  constructor(private svc: PicoplacaService) {}
-
-  today(): string {
-    return new Date().toISOString().slice(0, 10);
-  }
-
-  now(): string {
-    return new Date().toTimeString().slice(0, 5);
+  constructor(private svc: PicoplacaService) {
+    // inicializamos 5 minutos en el futuro
+    const offsetDate = new Date(Date.now() + 5 * 60_000);
+    this.fecha = offsetDate.toISOString().slice(0, 10);
+    this.hora  = offsetDate.toTimeString().slice(0, 5);
   }
 
   consultar(form: NgForm) {
-    // si el form no es válido, marcamos toques y no enviamos
     if (form.invalid) {
       form.control.markAllAsTouched();
       return;
@@ -59,7 +55,6 @@ export class PicoplacaFormComponent {
           this.cargando  = false;
         },
         error: (msg: string) => {
-          // msg viene de catchError en el servicio
           this.errorMsg = msg;
           this.cargando = false;
         }
