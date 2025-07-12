@@ -20,3 +20,10 @@ https://s.icepanel.io/bDyZ5qTFo3IZPK/zOmC
 git clone https://github.com/1756096090/picoplaca-ui
 cd picoplaca-ui
 npm install
+
+## Ecutar el copilado 
+
+```bash
+npm install -g serve
+serve -s dist/picoplaca-ui -l 4200
+
