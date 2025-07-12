@@ -1,0 +1,39 @@
+<form #placaForm="ngForm" (ngSubmit)="consultar()">
+    <div class="form-container">
+        <h2>Verificar Pico y Placa</h2>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Placa</mat-label>
+            <input matInput name="placa" [(ngModel)]="placa" placeholder="ABC1234" required pattern="[A-Z]{3}[0-9]{4}"
+                #placaCtrl="ngModel" (input)="placa = placa.toUpperCase()" />
+            <mat-error *ngIf="placaCtrl.invalid && placaCtrl.touched">
+                La placa debe ser 3 letras mayúsculas y 4 dígitos (p.ej. ABC1234)
+            </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Fecha</mat-label>
+            <input matInput name="fecha" [(ngModel)]="fecha" type="date" required />
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+            <mat-label>Hora</mat-label>
+            <input matInput name="hora" [(ngModel)]="hora" type="time" required />
+        </mat-form-field>
+
+        <button mat-raised-button color="primary" type="submit" [disabled]="placaForm.invalid || cargando">
+            {{ cargando ? 'Consultando...' : 'Verificar' }}
+        </button>
+
+        <div *ngIf="resultado!==null" class="resultado">
+            <p *ngIf="resultado; else denegado">
+                ✅ La placa {{ placa }} puede circular
+            </p>
+            <ng-template #denegado>
+                ❌ La placa {{ placa }} no puede circular
+            </ng-template>
+        </div>
+
+        <p *ngIf="errorMsg" class="error">{{ errorMsg }}</p>
+    </div>
+</form>
