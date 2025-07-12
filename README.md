@@ -13,7 +13,7 @@ https://s.icepanel.io/bDyZ5qTFo3IZPK/zOmC
 - Node.js v18.x
 - npm v8.x o superior
 - Angular CLI 18.x (puedes instalarlo globalmente con `npm install -g @angular/cli@18`)
-- Bachend apunte al 8080 en localhost
+- Configura el backend para que escuche en http://localhost:8080
 
 ## Instalación
 
